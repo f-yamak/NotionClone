@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def user_login(request):
     if request.method == "POST":
-        form = LoginUserForm(request, request.POST)
+        form = LoginUserForm(request, data=request.POST)
 
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -34,13 +34,12 @@ def user_register(request):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Successfully registered')
-            return redirect('user_login')
+            return redirect("user_login")
         else:
-            messages.error(request, 'Registration failed')
-    else:
-        form = RegisterUserForm()
-    return render(request, 'account/register.html', {'form': form})
+            return render(request, "account/register.html",{"form":form})
+    
+    form = RegisterUserForm()
+    return render(request, "account/register.html", {"form": form})
 
 
 def user_logout(request):

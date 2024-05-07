@@ -21,16 +21,26 @@ class LoginUserForm(AuthenticationForm):
 class RegisterUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ("first_name","last_name","username","email",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget = widgets.TextInput(attrs={"class":"form-control"})
+        self.fields["last_name"].widget = widgets.TextInput(attrs={"class":"form-control"})
+        self.fields["username"].widget = widgets.TimeInput(attrs={"class":"form-control"})
+        self.fields["email"].widget = widgets.EmailInput(attrs={"class":"form-control"})
+        self.fields["email"].required = True
+        self.fields["password1"].widget = widgets.PasswordInput(attrs={"class":"form-control"})
+        self.fields["password2"].widget = widgets.PasswordInput(attrs={"class":"form-control"})
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email address is already used")
+            self.add_error("email","This address already used")
         return email
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("This email username is already used.")
+            self.add_error("username","This username already used")
         return username
