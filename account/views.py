@@ -18,7 +18,7 @@ def user_login(request):
 
             if user is not None and user.is_active:
                 login(request, user)
-                return redirect('index')
+                return redirect('block/index')
             else:
                 return render(request, 'account/login.html', {'form': form})
         else:

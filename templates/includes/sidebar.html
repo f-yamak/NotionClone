@@ -1,0 +1,86 @@
+<!-- sidebar.html -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h3 style="margin-left: 0px;"><i class="fas fa-radiation"></i> NotionFM</h3>
+    </div>
+    <ul class="sidebar-menu">
+        <li class="sidebar-item active">
+            <a href="{% url 'anasayfa' %}" class="sidebar-link">
+                <i class="fas fa-home"></i>
+                <span>Anasayfa</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'add_page' %}" class="sidebar-link">
+                <i class="fas fa-plus"></i>
+                <span>Add a page</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'gorevler' %}" class="sidebar-link">
+                <i class="fas fa-tasks"></i>
+                <span>Görevler</span>
+            </a>
+        </li>
+        <!-- Search Kısmı -->
+        <li class="sidebar-item">
+            <a href="{% url 'search' %}" class="sidebar-link">
+                <i class="fas fa-search"></i>
+                <span>Search</span>
+            </a>
+        </li>
+        <!-- Inbox -->
+        <li class="sidebar-item">
+            <a  href="{% url 'inbox' %}" class="sidebar-link">
+                <i class="fas fa-inbox"></i>
+                <span>Inbox</span>
+            </a>
+        </li>
+     
+        <!-- Members -->
+        <li class="sidebar-item">
+            <a href="{% url 'members_settings' %}" class="sidebar-link">
+                <i class="fas fa-users"></i>
+                <span>Members & Settings </span>
+            </a>
+        </li>
+        <!-- Calendar -->
+        <li class="sidebar-item">
+            <a  href="{% url 'calendar' %}" class="sidebar-link">
+                <i class="fas fa-calendar"></i>
+                <span>Calendar</span>
+            </a>
+        </li>
+        <!-- Templates -->
+        <li class="sidebar-item">
+            <a href="{% url 'templates' %}" class="sidebar-link">
+                <i class="fas fa-file-alt"></i>
+                <span>Templates</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a  href="{% url 'help_supports' %}" class="sidebar-link">
+                <i class="fas fa-question-circle"></i>
+                <span>Help and Supports</span>
+            </a>
+        </li>
+        
+        <!-- Trash -->
+        <li class="sidebar-item">
+            <a href="{% url 'trash' %}" class="sidebar-link">
+                <i class="fas fa-trash"></i>
+                <span>Trash</span>
+            </a>
+        </li>
+        <!-- Oturum Açan Kullanıcı Bilgisi -->
+        <li class="sidebar-item">
+            <a class="sidebar-link">
+                <i class="fas fa-user"></i>
+                <span>Hoşgeldin, <script>document.write("{{request.user}}".toUpperCase());</script> !</span>
+
+            
+            </a>
+        </li>
+        <!-- Diğer kenar çubuğu öğelerini buraya ekleyebilirsiniz -->
+    </ul>
+</div>
