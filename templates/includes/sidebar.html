@@ -1,13 +1,55 @@
+<!-- HTML dosyanızın içeriği -->
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- FontAwesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    /* Sidebar linklerinin genel stil ayarları */
+    .sidebar-link {
+        text-decoration: none !important; /* Alt çiziyi kaldırır */
+        color: #fff; /* Varsayılan metin rengi */
+        display: block; /* Linklerin blok olarak görünmesini sağlar */
+        padding: 10px; /* Link içeriğine biraz dolgu ekler */
+    }
+
+    /* Sidebar linklerine hover olduğunda */
+    .sidebar-link:hover {
+        
+        color: white; /* Beyaz metin */
+    }
+
+    /* Alt menü linklerinin stil ayarları */
+    .sub-menu li a {
+        color: #fff; /* Varsayılan metin rengi */
+        text-decoration: none; /* Alt çiziyi kaldırır */
+        display: block; /* Linklerin blok olarak görünmesini sağlar */
+        padding: 10px 20px; /* Link içeriğine biraz dolgu ekler */
+        font-size: 12px; /* Yazı boyutunu küçült */
+        font-style: italic; /* Yazıyı italik yap */
+    }
+
+    /* Alt menü linklerine hover olduğunda */
+    .sub-menu li a:hover {
+        background-color: gray; /* Mavi arka plan */
+        color: white; /* Beyaz metin */
+        text-decoration: none; /* Alt çiziyi kaldırır */
+    }
+</style>
+
+
 <!-- sidebar.html -->
 <div class="sidebar">
     <div class="sidebar-header">
         <h3 style="margin-left: 0px;"><i class="fas fa-radiation"></i> NotionFM</h3>
     </div>
     <ul class="sidebar-menu">
+       
         <li class="sidebar-item active">
-            <a href="{% url 'anasayfa' %}" class="sidebar-link">
-                <i class="fas fa-home"></i>
-                <span>Anasayfa</span>
+            <a class="sidebar-link">
+                <i class="fas fa-user"></i>
+                <span>Hoşgeldin, <script>document.write("{{request.user}}".toUpperCase());</script> !</span>
             </a>
         </li>
         <li class="sidebar-item">
@@ -19,51 +61,43 @@
         <li class="sidebar-item">
             <a href="{% url 'gorevler' %}" class="sidebar-link">
                 <i class="fas fa-tasks"></i>
-                <span>Görevler</span>
+                <span>Notlar</span>
             </a>
         </li>
         <!-- Search Kısmı -->
-        <li class="sidebar-item">
-            <a href="{% url 'search' %}" class="sidebar-link">
-                <i class="fas fa-search"></i>
-                <span>Search</span>
-            </a>
-        </li>
+      
         <!-- Inbox -->
-        <li class="sidebar-item">
-            <a  href="{% url 'inbox' %}" class="sidebar-link">
-                <i class="fas fa-inbox"></i>
-                <span>Inbox</span>
-            </a>
-        </li>
+        
      
         <!-- Members -->
-        <li class="sidebar-item">
-            <a href="{% url 'members_settings' %}" class="sidebar-link">
-                <i class="fas fa-users"></i>
-                <span>Members & Settings </span>
-            </a>
-        </li>
+       
         <!-- Calendar -->
         <li class="sidebar-item">
-            <a  href="{% url 'calendar' %}" class="sidebar-link">
+            <a href="{% url 'calendar' %}" class="sidebar-link">
                 <i class="fas fa-calendar"></i>
                 <span>Calendar</span>
             </a>
         </li>
         <!-- Templates -->
         <li class="sidebar-item">
-            <a href="{% url 'templates' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link" data-toggle="collapse" data-target="#templates-dropdown" aria-expanded="false">
                 <i class="fas fa-file-alt"></i>
                 <span>Templates</span>
+                <div class="arrow"></div>
             </a>
+            <div class="collapse" id="templates-dropdown">
+                <ul class="sub-menu">
+                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-birthday-cake"></i>  Doğum Günü</a></li>
+                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-handshake"></i>  Toplantı </a></li>
+                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-shopping-cart"></i>  Alışveriş </a></li>
+                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-utensils"></i>  Yemek Tarifi </a></li>
+                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-film"></i>  Film </a></li>
+                    <!-- Diğer templateleri buraya ekleyin -->
+                </ul>
+            </div>
+            
         </li>
-        <li class="sidebar-item">
-            <a  href="{% url 'help_supports' %}" class="sidebar-link">
-                <i class="fas fa-question-circle"></i>
-                <span>Help and Supports</span>
-            </a>
-        </li>
+       
         
         <!-- Trash -->
         <li class="sidebar-item">
@@ -72,15 +106,27 @@
                 <span>Trash</span>
             </a>
         </li>
-        <!-- Oturum Açan Kullanıcı Bilgisi -->
         <li class="sidebar-item">
-            <a class="sidebar-link">
-                <i class="fas fa-user"></i>
-                <span>Hoşgeldin, <script>document.write("{{request.user}}".toUpperCase());</script> !</span>
-
-            
+            <a href="{% url 'members_settings' %}" class="sidebar-link">
+                <i class="fas fa-cogs"></i>
+                <span> Settings </span>
             </a>
         </li>
+        <!-- Oturum Açan Kullanıcı Bilgisi -->
+
         <!-- Diğer kenar çubuğu öğelerini buraya ekleyebilirsiniz -->
     </ul>
 </div>
+
+<!-- Bootstrap ve jQuery kütüphaneleri -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('.sidebar-link').click(function(){
+            $(this).next('.collapse').slideToggle();
+        });
+    });
+</script>
