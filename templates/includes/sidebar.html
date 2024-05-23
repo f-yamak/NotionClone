@@ -87,11 +87,12 @@
             </a>
             <div class="collapse" id="templates-dropdown">
                 <ul class="sub-menu">
-                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-birthday-cake"></i>  Doğum Günü</a></li>
-                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-handshake"></i>  Toplantı </a></li>
-                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-shopping-cart"></i>  Alışveriş </a></li>
-                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-utensils"></i>  Yemek Tarifi </a></li>
-                    <li style="list-style-type: none;"><a href="#"><i class="fas fa-film"></i>  Film </a></li>
+                    <li style="list-style-type: none;"><a href="{% url 'birthday' %}" ><i class="fas fa-birthday-cake"></i> Birthday </a></li>
+                    <li style="list-style-type: none;"><a href="{% url 'todo' %}" ><i class="fas fa-birthday-cake"></i>  Todo</a></li>
+                    <li style="list-style-type: none;"><a href="{% url 'event' %}" ><i class="fas fa-handshake"></i>  Toplantı </a></li>
+                    {% comment %} <li style="list-style-type: none;"><a href="{% url 'shopping' %}" ><i class="fas fa-shopping-cart"></i>  Alışveriş </a></li> {% endcomment %}
+                    {% comment %} <li style="list-style-type: none;"><a href="{% url 'todo' %}" ><i class="fas fa-utensils"></i>  Yemek Tarifi </a></li> {% endcomment %}
+                    <li style="list-style-type: none;"><a href="{% url 'movie' %}" ><i class="fas fa-film"></i>  Film </a></li>
                     <!-- Diğer templateleri buraya ekleyin -->
                 </ul>
             </div>
@@ -112,6 +113,13 @@
                 <span> Settings </span>
             </a>
         </li>
+              <!-- Çıkış -->
+              <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
         <!-- Oturum Açan Kullanıcı Bilgisi -->
 
         <!-- Diğer kenar çubuğu öğelerini buraya ekleyebilirsiniz -->

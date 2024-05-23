@@ -49,19 +49,7 @@
         var contentEditor = null; // İçerik için editor nesnesi
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Başlık alanına odaklandığında CKEditor'u başlat
-            document.getElementById("titleInput").addEventListener("focus", function() {
-                if (!titleEditor) {
-                    ClassicEditor
-                        .create(document.querySelector('#titleInput'))
-                        .then(editor => {
-                            titleEditor = editor;
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                }
-            });
+          
 
             // İçerik alanına odaklandığında CKEditor'u başlat
             document.getElementById("contentInput").addEventListener("focus", function() {

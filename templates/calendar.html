@@ -16,21 +16,156 @@
 {% block content %}
     
     {% include 'includes/sidebar.html' %}
+<style>
+    .calendar-container {
+        padding-top: 20px;
+        width: 1000px; /* istediğiniz genişlik */
+        height: auto; /* istediğiniz yükseklik */
+        margin: 0 auto; /* sayfa genişliği içinde ortalamak için */
+        text-align: left; /* içerikleri yatay olarak solda hizala */
+        margin-left: 400px; /* soldan 100 piksel boşluk */
+    }
+    
+    #calendar {
+        width: 100%; /* konteynerin tamamını kaplaması için */
+        height: 100%; /* konteynerin tamamını kaplaması için */
+    }
+    /* Modal stilleri */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    
+</style>
+<div class="calendar-container" style="justify-content:right">
     <div id="calendar"></div>
+</div>
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Etkinlik Ekle</h2>
+        <form id="eventForm">
+            <label for="eventTitle">Başlık:</label>
+            <input type="text" id="eventTitle" name="eventTitle">
+            <label for="eventDate">Tarih:</label>
+            <input type="text" id="eventDate" name="eventDate">
+            <button type="submit">Ekle</button>
+        </form>
+    </div>
+</div>
 
-    <!-- jQuery ve FullCalendar JavaScript -->
+  
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: [
+                        // Etkinlikler buraya gelecek
+                    ],
+                    dateClick: function(info) {
+                        // Tarihe tıklama eventi
+                        var modal = document.getElementById("eventModal");
+                        modal.style.display = "block";
+                        var eventDateInput = document.getElementById("eventDate");
+                        eventDateInput.value = info.dateStr;
+                    }
+                });
+                calendar.render();
+            
+                // Modal kapatma
+                var closeBtn = document.querySelector("#eventModal .close");
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        var modal = document.getElementById("eventModal");
+                        modal.style.display = "none";
+                    };
+                } else {
+                    console.error("Close button not found!");
+                }
+            
+                // Form submit eventi
+                var eventForm = document.getElementById("eventForm");
+                if (eventForm) {
+                    eventForm.onsubmit = function(event) {
+                        event.preventDefault();
+                        var eventTitle = document.getElementById("eventTitle").value;
+                        var eventDate = document.getElementById("eventDate").value;
+                        // Yeni etkinliği events dizisine ekle
+                        calendar.addEvent({
+                            title: eventTitle,
+                            start: eventDate
+                        });
+                        // Modalı kapat
+                        var modal = document.getElementById("eventModal");
+                        modal.style.display = "none";
+                    };
+                } else {
+                    console.error("Event form not found!");
+                }
+            });
+            
+    </script>
+    <script>
+        var upcomingBirthdays = JSON.parse('{{ upcoming_birthdays | safe }}');
+        var movies = JSON.parse('{{ movies | safe }}');
+    </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-          
             var calendar = new FullCalendar.Calendar(calendarEl, {
-              // Takvim ayarları buraya eklenebilir
+                initialView: 'dayGridMonth',
+                events: [
+                    // Buraya etkinliklerinizi ekleyebilirsiniz
+                    {
+                        title: 'Etkinlik 1',
+                        start: '2024-05-01',
+                        end: '2024-05-03'
+                    },
+                    {
+                        title: 'Etkinlik 2',
+                        start: '2024-05-07T10:00:00',
+                        end: '2024-05-07T14:00:00'
+                    }
+                    // Etkinliklerinizi eklemeye devam edebilirsiniz
+                ]
             });
-          
             calendar.render();
         });
     </script>
