@@ -59,11 +59,19 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="{% url 'gorevler' %}" class="sidebar-link">
-                <i class="fas fa-tasks"></i>
-                <span>Notlar</span>
-            </a>
-        </li>
+    <a href="#" class="sidebar-link" data-toggle="collapse" data-target="#notes-dropdown" aria-expanded="false">
+        <i class="fas fa-tasks"></i>
+        <span>Notlar</span>
+        <div class="arrow"></div>
+    </a>
+    <div class="collapse" id="notes-dropdown">
+        <ul class="sub-menu">
+            {% for post in posts %}
+                <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</li>
         <!-- Search Kısmı -->
       
         <!-- Inbox -->

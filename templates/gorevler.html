@@ -1,127 +1,48 @@
 {% extends 'layout.html' %}
-
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css_files %}
-  {{ block.super }}
-  <link rel="stylesheet" href="{% static 'block/css/style.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}" />
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+    {{ block.super }} 
+    <link rel="stylesheet" href="{% static 'block/css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add_page.css' %}">
+    <!-- CKEditor CSS -->
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #333333 !important; /* Açık gri */
+        }
+    </style>
+{% endblock  %}
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-
-  <style>
-    #notlar_tablosu {
-      margin-left: 20px; /* Tablonun sol kenar boşluğu */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow ekle */
-    }
-    .not-ekle-btn {
-      position: absolute; /* Mutlak konumlandırma */
-      top: 20px; /* Yukarıdan 20 piksel mesafede */
-      left: calc(20px + 100px); /* Soldan 20 piksel ve 100 piksel sağa kaydır */
-      padding: 10px 20px; /* Butonun içeriğine dolgu ekle */
-      background-color: #007bff; /* Arkaplan rengi */
-      color: #fff; /* Yazı rengi */
-      border: none; /* Kenarlık olmasın */
-      border-radius: 5px; /* Köşeleri yuvarla */
-      cursor: pointer; /* İmleci işaretçi yap */
-    }
-    .not-ekle-btn:hover {
-      background-color: #0056b3; /* Hover durumunda arkaplan rengini değiştir */
-    }
-    .dataTables_filter {
-      margin-bottom: 20px; /* Arama kutusunun alt boşluğunu artır */
-    }
-  </style>
-{% endblock %}
 
 {% block title %}
-  Notlar
+ Notes
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-2">    {% include 'includes/sidebar.html' %}</div>
-    <div class="col-10">
-      <div class="container mt-5">
-        <button class="btn-secondary btn btn-sm" id="notEkleBtn">Not Ekle</button>
-        <button class="btn-primary btn btn-sm" id="notEkleBtn">Excele Aktar</button>
 
-        <div>
-          <h2 class="text-center mb-4">Notlarım <i class="fas fa-sticky-note"></i></h2>
+    {% include 'includes/sidebar.html' %}
+    
+    <div class="container mt-3 ">
+      <div class="row justify-content-center">
+          <div class="col-md-8">
+            
+                  <div class="card-body">
+                    <h2 class="card-title" style="color: white;">{{ post.title }}</h2>
 
-          <div class="mb-3">
-            <table id="notlar_tablosu" class="display">
-              <thead>
-                <tr>
-                  <th>Durum</th>
-                  <th>Başlık</th>
-                  <th>İçerik</th>
-                  <th>Oluşturulma Zamanı</th>
-                  <th>Düzenle/Sil</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="path_to_image.jpg" alt="Resim" />
-                  </td>
-                  <td>Başlık 1</td>
-                  <td>İçerik 1</td>
-                  <td>İçerik 1</td>
-                  <td class="">
-                    <button class="btn btn-success btn-sm duzenle-btn"><i class="fas fa-edit"></i> Düzenle</button>
-                    <button class="btn btn-danger btn-sm sil-btn"><i class="fas fa-trash"></i> Sil</button>
-                  </td>
-                </tr>
-                <!-- Buraya notlarınızın verilerini dinamik olarak ekleyebilirsiniz -->
-              </tbody>
-            </table>
+                      <p class="card-text">{{ post.body|safe }}</p>
+                  </div>
+                  <div class="card-footer">
+                    <small style="color: white;" class="text-muted">Created on {{ post.creation_date|date:"F d, Y" }} at {{ post.creation_date|time:"H:i" }}</small>
+
+                  </div>
+             
           </div>
-        </div>
       </div>
-      <div class="modal" id="notEkleModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Not Ekle</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <!-- Not ekleme formu -->
-              <form id="notEkleForm">
-                <div class="form-group">
-                  <label for="baslik">Başlık:</label>
-                  <input type="text" class="form-control" id="baslik" name="baslik" />
-                </div>
-                <div class="form-group">
-                  <label for="icerik">İçerik:</label>
-                  <textarea class="form-control" id="icerik" name="icerik"></textarea>
-                </div>
-                <!-- Gerekli diğer form alanları -->
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-              <button type="button" class="btn btn-primary" id="notKaydetBtn">Kaydet</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-  <!-- jQuery ve DataTables JavaScript -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#notlar_tablosu').DataTable({
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/Turkish.json'
-        }
-      })
-    })
-  </script>
+  
 {% endblock %}

@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/add_page.css' %}">
     <!-- CKEditor CSS -->
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.css">
+    <style>
+        body {
+            background-color: #333333 !important; /* Açık gri */
+        }
+    </style>
 {% endblock  %}
 
 {% block title %}
@@ -23,7 +28,7 @@
             <div class="col-md-6">
                 <form id="noteForm" method="POST" >
                     {% csrf_token %}
-                    <div class="mt-5 mb-5">
+                    <div class="mt-5 mb-5 ">
                         {{ form.title }}  
                     </div>
                     <div class="mt-5 mb-5">
@@ -37,7 +42,7 @@
             </div>
         </div>
     </div>
-        <!-- Gönderilen Notlar -->
+        {% comment %} <!-- Gönderilen Notlar -->
         <div class="container mt-5 mr-4">
             <h2>Gönderilen Notlar</h2>
             <ul>
@@ -46,6 +51,7 @@
                 {% endfor %}
             </ul>
         </div>
+     {% endcomment %}
     
 
 {% endblock %}

@@ -7,3 +7,5 @@ admin.site.register(Movie)
 admin.site.register(Shopping)
 admin.site.register(Birthday)
 admin.site.register(BlogPost)
+
+

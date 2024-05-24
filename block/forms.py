@@ -9,3 +9,6 @@ class PostForm(forms.ModelForm):
         widgets = {
             'body': CKEditorWidget()
         }
+        widgets = {
+          'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'background-color: #333333; color: white; border:none;'})
+        }

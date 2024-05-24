@@ -1,6 +1,6 @@
 from django.utils import timezone
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .forms import PostForm
 from block.models import *
 
@@ -36,11 +36,11 @@ def add_page(request):
         form = PostForm()  # Her iki koşul altında formu tanımla
     
     return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
+def post_detail(request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        return render(request, 'gorevler.html', {'post': post})
 
 
-
-def gorevler(request):
-    return render(request, 'gorevler.html')
 
 def search(request):
     return render(request, 'search.html')

@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 
 
 class Post(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(_("Title"), max_length=250)
     body = RichTextField()
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -18,6 +19,8 @@ class Post(models.Model):
 
 
 class Event(models.Model):
+    id = models.AutoField(primary_key=True)
+
     name = models.CharField(_("Name"), max_length=200)
     description = RichTextField()
     date = models.DateField(_("Date"), blank=True, null=True)
@@ -25,7 +28,8 @@ class Event(models.Model):
     deleted = models.BooleanField(_("Deleted"), default=False)
 
 class Movie(models.Model):
-    
+    id = models.AutoField(primary_key=True)
+
     title = models.CharField(_("Title"), max_length=200)
     description = models.TextField(_("Description"), blank=True)
     release_date = models.DateField(_("Release Date"), blank=True, null=True)
@@ -33,7 +37,8 @@ class Movie(models.Model):
     deleted = models.BooleanField(_("Deleted"), default=False)
 
 class Shopping(models.Model):
-    
+    id = models.AutoField(primary_key=True)
+ 
     product_name = models.CharField(_("Product Name"), max_length=200)
     description = models.TextField(_("Description"), blank=True)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2, blank=True, null=True)
@@ -41,6 +46,8 @@ class Shopping(models.Model):
     deleted = models.BooleanField(_("Deleted"), default=False)
 
 class Birthday(models.Model):
+    id = models.AutoField(primary_key=True)
+
     person_name = models.CharField(_("Person Name"), max_length=200)
     birth_date = models.DateField(_("Birth Date"))
     gift_ideas = models.TextField(_("Gift Ideas"), blank=True)
