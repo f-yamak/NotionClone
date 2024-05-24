@@ -6,22 +6,14 @@ from block.models import *
 
 # Create your views here.
 def homepage(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     return render(request, "block/homepage.html")
 
 
 def index(request):
     return render(request, "block/index.html")
 
-
-def anasayfa(request):
-    return render(request, 'anasayfa.html')
-
-
-
-
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import PostForm
 
 def add_page(request):
     if request.method == 'POST':
@@ -161,6 +153,7 @@ def movie(request):
 
 def shopping(request):
     return render(request, 'shopping.html')
+    
 def event(request):
     if request.method == 'POST':
         name = request.POST.get('name')
