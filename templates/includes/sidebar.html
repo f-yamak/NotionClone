@@ -65,9 +65,10 @@
         <div class="arrow"></div>
     </a>
     <div class="collapse" id="notes-dropdown">
-        <ul class="sub-menu">
+        <ul style="none" class="sub-menu">
             {% for post in posts %}
-                <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+                <li style="none"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+             
             {% endfor %}
         </ul>
     </div>

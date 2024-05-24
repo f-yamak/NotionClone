@@ -33,6 +33,11 @@
             background-color: blue;
         }
     </style>
+      <style>
+        body {
+            background-color: #333333 !important; /* Açık gri */
+        }
+    </style>
 {% endblock  %}
 
 {% block title %}
@@ -43,7 +48,7 @@
     
     {% include 'includes/sidebar.html' %}
 
-    <div class="container mt-5 mr-5">
+    <div class="container mt-5 ">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
@@ -76,11 +81,13 @@
     </div> {% endcomment %}
 
     <!-- Upcoming Birthdays -->
-    <div class="container mt-5 mr-3">
+    <div class="container mt-5 mr-6">
         <div class="row justify-content-center">
             {% for birthday in upcoming_birthdays %} 
                 <div class="col-md-6">
-                    <div class="card mb-3">
+                    <div class="card mb-3 mr-6" style="background-color: #f2f2f2;">
+                    
+                       
                         <div class="card-body">
             
                             <h5 class="card-title">  <i class="fas fa-gift red-text"></i> {{birthday.person_name }}'s Birthday</h5>

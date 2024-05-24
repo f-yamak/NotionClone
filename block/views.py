@@ -76,7 +76,7 @@ def birthday(request):
         birthday.save()
         
         today = timezone.now().date()
-        upcoming_birthdays = Birthday.objects.filter(birth_date__gte=today).order_by('birth_date')[:3]
+        upcoming_birthdays = Birthday.objects.filter(birth_date__gte=today).order_by('birth_date')[:6]
         print(upcoming_birthdays)
 
         messages.success(request, "Randevu başarıyla oluşturuldu.")

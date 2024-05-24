@@ -281,4 +281,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CKEDITOR_UPLOAD_PATH = "uploads/",
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['Image'],  # Görüntü ekleme aracı
+            ['Source'],
+            ['TextColor', 'BGColor']  # Renk ekleme araçları
+        ],
+    },
+}
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
