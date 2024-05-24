@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import redirect, render
-
+from .forms import PostForm
 from block.models import *
 
 # Create your views here.
@@ -16,8 +16,28 @@ def index(request):
 def anasayfa(request):
     return render(request, 'anasayfa.html')
 
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import PostForm
+
 def add_page(request):
-    return render(request, 'add_page.html')
+    if request.method == 'POST':
+        form = PostForm(request.POST)  # PostForm'u request.POST verisiyle oluştur
+        if form.is_valid():  # Form doğru verilerle doldurulmuşsa
+            form.save()  # Formu veritabanına kaydet
+            messages.success(request, "Post başarıyla oluşturuldu.")
+            return redirect('add_page')  # Yeni bir post eklemek için sayfayı yeniden yükle
+        else:
+            messages.error(request, "Formda hatalar var. Lütfen tekrar deneyin.")
+    else:
+        form = PostForm()  # Her iki koşul altında formu tanımla
+    
+    return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
+
+
 
 def gorevler(request):
     return render(request, 'gorevler.html')

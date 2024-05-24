@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from django.shortcuts import render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages

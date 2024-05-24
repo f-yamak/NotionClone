@@ -1,13 +1,12 @@
 {% extends 'layout.html' %}
-
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css_files %}
     {{ block.super }} 
     <link rel="stylesheet" href="{% static 'block/css/style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/add_page.css' %}">
-
     <!-- CKEditor CSS -->
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.css">
 {% endblock  %}
@@ -19,54 +18,34 @@
 {% block content %}
     
     {% include 'includes/sidebar.html' %}
-
     <div class="container">
         <div class="row justify-content-center mt-4">
             <div class="col-md-6">
                 <form id="noteForm" method="POST" >
                     {% csrf_token %}
                     <div class="mt-5 mb-5">
-                        <input type="text" name="title" class="form-control" id="titleInput" placeholder="NOT BAŞLIĞI">
+                        {{ form.title }}  
                     </div>
                     <div class="mt-5 mb-5">
-                        <!-- Metin düzenleyiciyi buraya ekle -->
-                        <textarea  name="content" id="contentInput" class="form-control" placeholder="İÇERİK"></textarea>
-
+                        {{ form.body}}  
+                        {{ form.media }}  
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-sm btn-secondary">Notumu Kaydet</button>
+                        <button type="submit" class="btn btn-sm btn-secondary">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+        <!-- Gönderilen Notlar -->
+        <div class="container mt-5 mr-4">
+            <h2>Gönderilen Notlar</h2>
+            <ul>
+                {% for post in posts %}
+                    <li>{{ post.title }} - {{ post.body|safe }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
 
-    <!-- CKEditor JavaScript -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-    <script>
-        // CKEditor'in başlatılması
-        var titleEditor = null; // Başlık için editor nesnesi
-        var contentEditor = null; // İçerik için editor nesnesi
-
-        document.addEventListener("DOMContentLoaded", function() {
-          
-
-            // İçerik alanına odaklandığında CKEditor'u başlat
-            document.getElementById("contentInput").addEventListener("focus", function() {
-                if (!contentEditor) {
-                    ClassicEditor
-    .create(document.querySelector('#contentInput'),{
-        theme: 'moono-dark' // Veya başka bir karanlık tema adı
-    })
-    .then(editor => {
-        contentEditor = editor;
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
-                }
-            });
-        });
-    </script>
 {% endblock %}

@@ -2,11 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
+
 
 
 class Post(models.Model):
     title = models.CharField(_("Title"), max_length=250)
-    body = RichTextUploadingField()
+    body = RichTextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated_date = models.DateTimeField(auto_now=True)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_posts', blank=True, null=True)
@@ -17,7 +19,7 @@ class Post(models.Model):
 
 class Event(models.Model):
     name = models.CharField(_("Name"), max_length=200)
-    description = models.TextField(_("Description"), blank=True)
+    description = RichTextField()
     date = models.DateField(_("Date"), blank=True, null=True)
     time = models.TimeField(_("Time"), blank=True, null=True)
     deleted = models.BooleanField(_("Deleted"), default=False)
