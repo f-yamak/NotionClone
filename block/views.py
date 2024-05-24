@@ -186,3 +186,15 @@ def event(request):
         
     else:
         return render(request, 'event.html')
+    from django.shortcuts import get_object_or_404, redirect
+
+
+def delete_post(request, post_id):
+    page = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        page.delete()
+        return redirect('add_page')  
+    return render(request, 'add_page.html')
+
+    
+    

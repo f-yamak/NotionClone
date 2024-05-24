@@ -6,7 +6,7 @@ urlpatterns = [
     path("index/",views.index ,name="index"),
     path('', views.anasayfa, name='anasayfa'),
     path('add_page/', views.add_page, name='add_page'),
-  
+    path('post/delete/<int:post_id>/', views.delete_post, name='delete_post'),
     path('search/', views.search, name='search'),
     path('inbox/', views.inbox, name='inbox'),
     path('members_settings/', views.members_settings, name='members_settings'),

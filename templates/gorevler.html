@@ -34,9 +34,13 @@
             <button class="edit-post-btn lg" style="background-color: transparent; border: none; color: black; padding: 0; cursor: pointer;">
               <i class="fas fa-edit" style="font-size: 12px; margin: 0; color: #888;"></i>
           </button>
-          <button class="delete-post-btn lg" style="background-color: transparent; border: none; color: black; padding: 0; cursor: pointer;">
-            <i class="fas fa-trash" style="font-size: 12px; margin: 0; color: #888;"></i>
-        </button>
+          <form action="{% url 'delete_post' post_id=post.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="delete-post-btn lg" style="background-color: transparent; border: none; color: black; padding: 0; cursor: pointer;">
+                <i class="fas fa-trash" style="font-size: 12px; margin: 0; color: #888;"></i>
+            </button>
+        </form>
+        
         
           
           
