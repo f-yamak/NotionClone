@@ -7,8 +7,6 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'body']
         widgets = {
-            'body': CKEditorWidget()
-        }
-        widgets = {
-          'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'background-color: #333333; color: white; border:none;'})
+            'body': CKEditorWidget(),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'color: white; border:none;'}),
         }
