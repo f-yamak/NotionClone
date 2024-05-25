@@ -130,21 +130,6 @@ CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 CKEDITOR_CONFIGS = {
     'default': {
-<<<<<<< HEAD
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList'],
-            ['Link', 'Unlink'],
-            ['Image', 'UploadImage'],  # UploadImage düğmesi
-            ['Source'],
-            ['TextColor', 'BGColor']
-        ],
-        'filebrowserUploadUrl': '/upload/',  # Dosya yükleme URL'si
-    },
-}
-
-=======
         'toolbar': 'full',
         'width': '800px',
         'extraPlugins': ','.join([
@@ -157,6 +142,5 @@ CKEDITOR_CONFIGS = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
->>>>>>> e8573c0efacc3837e272acb553b569a615d21e63
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"

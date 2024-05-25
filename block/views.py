@@ -13,7 +13,7 @@ from django.shortcuts import render
 from .models import Event, Birthday
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
-from .models import Post, Event, Movie, Shopping, Birthday, BlogPost
+from .models import Post, Event, Movie, Birthday
 import json
 
 from datetime import datetime, timedelta
@@ -177,7 +177,7 @@ def movie(request):
         )
         print("2")
         print(movie)
-        existing_movie = Movie.objects.filter(title=title, description=description).exists()
+        existing_movie = Movie.objects.filter(title=title, description=description,deleted=False).exists()
         if existing_movie:
             messages.warning(request, "Bu film zaten eklenmiş.")
         else:
@@ -279,6 +279,7 @@ def delete_movie(request, movie_id):
         delete_movie.save()
         return redirect('movie')
     return render(request, 'movie.html')
+
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -295,7 +296,7 @@ def undo_delete_post(request, post_id):
     # Post nesnesini al veya 404 hatası gönder
     post = get_object_or_404(Post, id=post_id)
 
-    # Post nesnesinin deleted alanını False olarak işaretle
+   
     post.deleted = False
     post.save()
 
@@ -323,7 +324,7 @@ def undo_delete_events(request, event_id):
     return redirect('deleted_posts')
 def undo_delete_birthdays(request, birthday_id):
     # Post nesnesini al veya 404 hatası gönder
-    birthday = get_object_or_404(Post, id=birthday_id)
+    birthday = get_object_or_404(Birthday, id=birthday_id)
 
     # Post nesnesinin deleted alanını False olarak işaretle
     birthday.deleted = False

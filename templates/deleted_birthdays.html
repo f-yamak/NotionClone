@@ -35,7 +35,9 @@
                             <span>{{ item.person_name }}</span>
                             <span class="ms-2">{{ item.birth_date }}</span>
                         </div>
-                        <form method="post" action="">
+                        
+                        <form method="post" action="{% url 'undo_delete_birthdays' item.id %}">
+                            {% csrf_token %}
                         <button class="btn btn-success"><i class="fas fa-undo"></i> </button>
                         </form>
                     </li>
