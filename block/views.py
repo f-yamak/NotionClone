@@ -22,22 +22,14 @@ from .models import Event, Birthday
 from datetime import datetime
 # Create your views here.
 def homepage(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     return render(request, "block/homepage.html")
 
 
 def index(request):
     return render(request, "block/index.html")
 
-
-def anasayfa(request):
-    return render(request, 'anasayfa.html')
-
-
-
-
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import PostForm
 
 def add_page(request):
     if request.method == 'POST':
@@ -52,6 +44,7 @@ def add_page(request):
         form = PostForm()  # Her iki koşul altında formu tanımla
     
     return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
+
 def post_detail(request, post_id):
         post = get_object_or_404(Post, pk=post_id)
         return render(request, 'gorevler.html', {'post': post})
@@ -211,6 +204,7 @@ def movie(request):
 
 def shopping(request):
     return render(request, 'shopping.html')
+    
 def event(request):
     if request.method == 'POST':
         name = request.POST.get('name')

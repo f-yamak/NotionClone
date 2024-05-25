@@ -9,7 +9,7 @@ from ckeditor.fields import RichTextField
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(_("Title"), max_length=250)
-    body = RichTextField()
+    body = RichTextUploadingField()
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated_date = models.DateTimeField(auto_now=True)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_posts', blank=True, null=True)
@@ -53,11 +53,3 @@ class Birthday(models.Model):
     gift_ideas = models.TextField(_("Gift Ideas"), blank=True)
     is_celebrated = models.BooleanField(_("Is Celebrated"), default=False)
     deleted = models.BooleanField(_("Deleted"), default=False)
-
-
-class BlogPost(models.Model):
-    title = models.CharField(_("Title"), max_length=250)
-    body = RichTextUploadingField()
-    
-    def __str__(self):
-        return self.title

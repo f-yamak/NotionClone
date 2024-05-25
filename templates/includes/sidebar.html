@@ -49,7 +49,7 @@
         <li class="sidebar-item active">
             <a class="sidebar-link">
                 <i class="fas fa-user"></i>
-                <span>Hoşgeldin, <script>document.write("{{request.user}}".toUpperCase());</script> !</span>
+                <span>Welcome, <script>document.write("{{request.user}}".toUpperCase());</script> !</span>
             </a>
         </li>
         <li class="sidebar-item">
@@ -61,7 +61,11 @@
         <li class="sidebar-item">
     <a href="#" class="sidebar-link" data-toggle="collapse" data-target="#notes-dropdown" aria-expanded="false">
         <i class="fas fa-tasks"></i>
+<<<<<<< HEAD
         <span>My Notes</span>
+=======
+        <span>Notes</span>
+>>>>>>> e8573c0efacc3837e272acb553b569a615d21e63
         <div class="arrow"></div>
     </a>
     <div class="collapse" id="notes-dropdown">
@@ -126,7 +130,7 @@
         </li>
               <!-- Çıkış -->
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="{% url "user_logout" %}" class="sidebar-link">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>

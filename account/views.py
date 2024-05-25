@@ -23,7 +23,7 @@ def user_login(request):
 
             if user is not None and user.is_active:
                 login(request, user)
-                return redirect('block/index')
+                return redirect('index')
             else:
                 return render(request, 'account/login.html', {'form': form})
         else:
@@ -49,7 +49,7 @@ def user_register(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('user_login')
+    return redirect('homepage')
 
 
 def password_change(request):

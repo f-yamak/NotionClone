@@ -7,6 +7,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'body']
         widgets = {
+<<<<<<< HEAD
             'body': CKEditorWidget()
         }
         widgets = {
@@ -21,4 +22,8 @@ class EditForm(forms.ModelForm):
         }
         widgets = {
           'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'width: 410px;'})
+=======
+            'body': CKEditorWidget(),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'color: white; border:none;'}),
+>>>>>>> e8573c0efacc3837e272acb553b569a615d21e63
         }
