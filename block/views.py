@@ -118,17 +118,16 @@ def birthday(request):
 
         birthday.save()
         
-        today = timezone.now().date()
-        upcoming_birthdays = Birthday.objects.filter(birth_date__gte=today).order_by('birth_date')[:6]
-        print(upcoming_birthdays)
-
-        messages.success(request, "Randevu başarıyla oluşturuldu.")
+        upcoming_birthdays = Birthday.objects.all().order_by('birth_date')[:6]
         
         # Şablonla birlikte upcoming_birthdays'i gönder
         return render(request, 'birthday.html', {'upcoming_birthdays': upcoming_birthdays})
         
-    else:
-        return render(request, 'birthday.html')
+    
+    upcoming_birthdays = Birthday.objects.all().order_by('birth_date')[:6]
+    return render(request, 'birthday.html',{'upcoming_birthdays': upcoming_birthdays})
+
+
 def todo(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -191,15 +190,13 @@ def movie(request):
         movie.save()
         
        
-        movies=Movie.objects.all()
-        messages.success(request, "Randevu başarıyla oluşturuldu.",{'movies': movies})
-        print("3")
+        movies=Movie.objects.filter(deleted=False)
         
         # Şablonla birlikte upcoming_birthdays'i gönder
-        return render(request, 'movie.html')
+        return render(request, 'movie.html',{'movies': movies})
         
     else:
-        movies=Movie.objects.all()
+        movies=Movie.objects.filter(deleted=False)
         return render(request, 'movie.html',{'movies': movies})
 
 def shopping(request):
@@ -219,18 +216,13 @@ def event(request):
 
         event.save()
         
-        today = timezone.now().date()
-        upcoming_events = Event.objects.filter(deleted=False,date__gte=today).order_by('date')[:3]
-        print(upcoming_events)
+        upcoming_events = Event.objects.filter(deleted=False).order_by('date')[:3]
 
-        messages.success(request, "Randevu başarıyla oluşturuldu.")
         
-        # Şablonla birlikte upcoming_birthdays'i gönder
         return render(request, 'event.html', {'upcoming_events': upcoming_events})
         
-    else:
-        return render(request, 'event.html')
-    from django.shortcuts import get_object_or_404, redirect
+    upcoming_events = Event.objects.filter(deleted=False).order_by('date')[:3]
+    return render(request, 'event.html', {'upcoming_events': upcoming_events})
 
 
 from django.shortcuts import render, get_object_or_404, redirect
@@ -261,24 +253,26 @@ def delete_birthday(request, birthday_id):
         return redirect('birthday')
     return render(request, 'birthday.html')
 
+
 def delete_event(request, event_id):
-   
-    delete_event = get_object_or_404(Event, event_id=event_id)
-    
+    delete_event = get_object_or_404(Event, id=event_id)
     if request.method == 'POST':
         delete_event.deleted = True
         delete_event.save()
         return redirect('event')
     return render(request, 'event.html')
-def delete_movie(request, movie_id):
-   
-    delete_movie = get_object_or_404(Movie, movie_id=movie_id)
-    
+
+
+def delete_movie(request, movie_id):   
+    delete_movie = get_object_or_404(Movie, id=movie_id)
+
     if request.method == 'POST':
         delete_movie.deleted = True
         delete_movie.save()
         return redirect('movie')
+    
     return render(request, 'movie.html')
+
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)

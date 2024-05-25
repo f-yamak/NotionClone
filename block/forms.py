@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
             'body': CKEditorWidget()
         }
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'color: white; border:none;'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'color: black; border:none;'}),
         }
 class EditForm(forms.ModelForm):
     class Meta:

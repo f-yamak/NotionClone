@@ -15,9 +15,13 @@
 {% endblock %}
 
 {% block content %}
-    
-    {% include 'includes/sidebar.html' %}
+<div class="row">
 
+    <div class="col-3">
+        {% include 'includes/sidebar.html' %}
+    </div>
+    
+<div class="col-9">
     <div class="container mt-5 ">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -46,8 +50,7 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
-
+   
 
     <div class="container mt-5 ">
         <h2 class="text-center mb-4">Upcoming Events</h2>
@@ -76,6 +79,6 @@
         </div>
     </div>
     
-  
-      
+</div>
+</div>
 {% endblock %}
