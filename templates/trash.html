@@ -49,23 +49,19 @@
                 </div>
 
                 <div class="list-group shadow">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i>  Silinen Notlar
+                    <a href="{% url 'deleted_posts' %}" class="list-group-item list-group-item-action"> 
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i>  Delated Post
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Silinen Alışveriş Listeleri
+                 
+                    <a href="{% url 'deleted_birthdays' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Delated Birthdays
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Silinen Doğum Günleri
+                    <a href="{% url 'deleted_movies' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i>  Deleted Movies
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Silinen Film Listeleri
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Silinen Yemek Tarifleri
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Silinen Toplantılar
+                    
+                    <a href="{% url 'deleted_events' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Deleted Events
                     </a>
                     <!-- Buraya çöp kutusunda bulunan öğelerin listesi gelebilir -->
                 </div>

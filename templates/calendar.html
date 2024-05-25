@@ -68,20 +68,20 @@
     
 </style>
 <div class="calendar-container" style="justify-content:right">
+ 
+  
+        
+          
+            
+                
+                    
+                        <td>{{ closest_event.name }}</td>
+                        <td>{{ closest_event.date }}</td>
+                
+           
+     
+
     <div id="calendar"></div>
-</div>
-<div id="eventModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Etkinlik Ekle</h2>
-        <form id="eventForm">
-            <label for="eventTitle">Başlık:</label>
-            <input type="text" id="eventTitle" name="eventTitle">
-            <label for="eventDate">Tarih:</label>
-            <input type="text" id="eventDate" name="eventDate">
-            <button type="submit">Ekle</button>
-        </form>
-    </div>
 </div>
 
   
@@ -89,62 +89,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    events: [
-                        // Etkinlikler buraya gelecek
-                    ],
-                    dateClick: function(info) {
-                        // Tarihe tıklama eventi
-                        var modal = document.getElementById("eventModal");
-                        modal.style.display = "block";
-                        var eventDateInput = document.getElementById("eventDate");
-                        eventDateInput.value = info.dateStr;
-                    }
-                });
-                calendar.render();
-            
-                // Modal kapatma
-                var closeBtn = document.querySelector("#eventModal .close");
-                if (closeBtn) {
-                    closeBtn.onclick = function() {
-                        var modal = document.getElementById("eventModal");
-                        modal.style.display = "none";
-                    };
-                } else {
-                    console.error("Close button not found!");
-                }
-            
-                // Form submit eventi
-                var eventForm = document.getElementById("eventForm");
-                if (eventForm) {
-                    eventForm.onsubmit = function(event) {
-                        event.preventDefault();
-                        var eventTitle = document.getElementById("eventTitle").value;
-                        var eventDate = document.getElementById("eventDate").value;
-                        // Yeni etkinliği events dizisine ekle
-                        calendar.addEvent({
-                            title: eventTitle,
-                            start: eventDate
-                        });
-                        // Modalı kapat
-                        var modal = document.getElementById("eventModal");
-                        modal.style.display = "none";
-                    };
-                } else {
-                    console.error("Event form not found!");
-                }
-            });
-            
-    </script>
-    <script>
-        var upcomingBirthdays = JSON.parse('{{ upcoming_birthdays | safe }}');
-        var movies = JSON.parse('{{ movies | safe }}');
-    </script>
+    
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -154,16 +99,17 @@
                 events: [
                     // Buraya etkinliklerinizi ekleyebilirsiniz
                     {
-                        title: 'Etkinlik 1',
+                        title: 'iş görüşmesi',
                         start: '2024-05-01',
                         end: '2024-05-03'
                     },
                     {
-                        title: 'Etkinlik 2',
-                        start: '2024-05-07T10:00:00',
-                        end: '2024-05-07T14:00:00'
+                        title: 'Python project',
+                        start: '2024-05-28',
+                        end: '2024-05-29'
                     }
                     // Etkinliklerinizi eklemeye devam edebilirsiniz
+                   
                 ]
             });
             calendar.render();

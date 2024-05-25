@@ -288,11 +288,13 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList'],
             ['Link', 'Unlink'],
-            ['Image'],  # Görüntü ekleme aracı
+            ['Image', 'UploadImage'],  # UploadImage düğmesi
             ['Source'],
-            ['TextColor', 'BGColor']  # Renk ekleme araçları
+            ['TextColor', 'BGColor']
         ],
+        'filebrowserUploadUrl': '/upload/',  # Dosya yükleme URL'si
     },
 }
+
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"

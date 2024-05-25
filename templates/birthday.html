@@ -33,11 +33,7 @@
             background-color: blue;
         }
     </style>
-      <style>
-        body {
-            background-color: #333333 !important; /* Açık gri */
-        }
-    </style>
+    
 {% endblock  %}
 
 {% block title %}
@@ -84,17 +80,19 @@
     <div class="container mt-5 mr-6">
         <div class="row justify-content-center">
             {% for birthday in upcoming_birthdays %} 
-                <div class="col-md-6">
-                    <div class="card mb-3 mr-6" style="background-color: #f2f2f2;">
+                <div class="col-md-8">
+                    <div class="card mb-3 mr-8" style="background-color: #f2f2f2;">
                     
                        
                         <div class="card-body">
             
                             <h5 class="card-title">  <i class="fas fa-gift red-text"></i> {{birthday.person_name }}'s Birthday</h5>
                             <p class="card-text">Date: {{ birthday.birth_date }}</p>
-                             
-                           
-                              
+                             <form method="post"  action="{% url 'delete_birthday' birthday_id=birthday.id%}">
+                
+                                {% csrf_token %}
+                            <button class="btn btn-danger btn-sm delete-birthday" style="position: absolute; top: 2px; right: 2px;">  <i class="fas fa-trash-alt"></i></button>
+                             </form>
                           
                         </div>
                        
@@ -106,7 +104,7 @@
 
 {% endblock %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+
 <script>
     var animation = bodymovin.loadAnimation({
         container: document.getElementById('birthday-animation'),

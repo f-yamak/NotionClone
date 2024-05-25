@@ -10,5 +10,15 @@ class PostForm(forms.ModelForm):
             'body': CKEditorWidget()
         }
         widgets = {
-          'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'background-color: #333333; color: white; border:none;'})
+          'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'width: 410px;'})
+        }
+class EditForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'body']
+        widgets = {
+            'body': CKEditorWidget()
+        }
+        widgets = {
+          'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Untitled', 'style': 'width: 410px;'})
         }

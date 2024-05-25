@@ -9,11 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/add_page.css' %}">
     <!-- CKEditor CSS -->
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.css">
-    <style>
-        body {
-            background-color: #333333 !important; /* Açık gri */
-        }
-    </style>
+   
 {% endblock  %}
 
 {% block title %}
@@ -35,8 +31,8 @@
                         {{ form.body}}  
                         {{ form.media }}  
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-sm btn-secondary">Save</button>
+                    <div class="text-center " style=" margin-right: 100px">
+                        <button type="submit"  class="btn btn-sm btn-secondary">Save</button>
                     </div>
                 </form>
             </div>

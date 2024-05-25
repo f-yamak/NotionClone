@@ -61,13 +61,15 @@
         <li class="sidebar-item">
     <a href="#" class="sidebar-link" data-toggle="collapse" data-target="#notes-dropdown" aria-expanded="false">
         <i class="fas fa-tasks"></i>
-        <span>Notlar</span>
+        <span>My Notes</span>
         <div class="arrow"></div>
     </a>
     <div class="collapse" id="notes-dropdown">
         <ul style="none" class="sub-menu">
             {% for post in posts %}
-                <li style="none"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+            {% if not post.deleted %}
+            <li style="none"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+        {% endif %}
              
             {% endfor %}
         </ul>

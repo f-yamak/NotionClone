@@ -1,9 +1,25 @@
+import json
+from datetime import datetime
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import PostForm
+from .forms import EditForm, PostForm
 from block.models import *
+from django.core.serializers import serialize
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
+from datetime import datetime, timedelta
+from django.shortcuts import render
+from .models import Event, Birthday
+from django.core.serializers.json import DjangoJSONEncoder
+from django.shortcuts import render
+from .models import Post, Event, Movie, Shopping, Birthday, BlogPost
+import json
 
+from datetime import datetime, timedelta
+from django.shortcuts import render
+from .models import Event, Birthday
+from datetime import datetime
 # Create your views here.
 def homepage(request):
     return render(request, "block/homepage.html")
@@ -42,8 +58,21 @@ def post_detail(request, post_id):
 
 
 
-def search(request):
-    return render(request, 'search.html')
+def deleted_posts(request):
+    deleted_posts=Post.objects.filter(deleted=True)
+    return render(request, 'deleted_posts.html',{'deleted_posts':deleted_posts})
+def deleted_birthdays(request):
+    deleted_birthdays=Birthday.objects.filter(deleted=True)
+    return render(request, 'deleted_birthdays.html',{'deleted_birthdays':deleted_birthdays})
+def deleted_events(request):
+    deleted_events=Event.objects.filter(deleted=True)
+    print(deleted_events)
+    return render(request, 'deleted_events.html',{'deleted_events':deleted_events})
+def deleted_movies(request):
+    deleted_movies=Movie.objects.filter(deleted=True)
+    return render(request, '.html',{'deleted_movies':deleted_movies})
+    
+
 
 def inbox(request):
     return render(request, 'inbox.html')
@@ -51,8 +80,29 @@ def inbox(request):
 def members_settings(request):
     return render(request, 'members_settings.html')
 
+
+
+
 def calendar(request):
-    return render(request, 'calendar.html')
+    today = datetime.now()
+
+
+    # Bu hafta içindeki etkinlikleri al
+    events = Event.objects.all()
+    closest_event = Event.objects.filter(date__gte=today).order_by('date').first()
+
+    # Bu hafta içindeki doğum günlerini al
+    birthdays = Birthday.objects.all()
+
+    # JSON verisini bir sözlük içine yerleştir
+    data = {
+        'closest_event': closest_event,
+        'birthdays': birthdays,
+    }
+    print(data)
+    
+    return render(request, 'calendar.html', {'data': data})
+
 
 def templates(request):
     return render(request, 'template.html')
@@ -176,7 +226,7 @@ def event(request):
         event.save()
         
         today = timezone.now().date()
-        upcoming_events = Event.objects.filter(date__gte=today).order_by('date')[:3]
+        upcoming_events = Event.objects.filter(deleted=False,date__gte=today).order_by('date')[:3]
         print(upcoming_events)
 
         messages.success(request, "Randevu başarıyla oluşturuldu.")
@@ -189,12 +239,101 @@ def event(request):
     from django.shortcuts import get_object_or_404, redirect
 
 
-def delete_post(request, post_id):
-    page = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        page.delete()
-        return redirect('add_page')  
-    return render(request, 'add_page.html')
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post
 
+def delete_post(request, post_id):
+    # Post nesnesini al veya 404 hatası gönder
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST':
+        # Post nesnesinin deleted alanını True olarak işaretle
+        post.deleted = True
+        post.save()
+        
+        
+        # Eğer başka bir sayfaya yönlendirme yapmak istiyorsanız, burada onu belirtin
+        return redirect('add_page')
+    
+    # Eğer gönderim yöntemi "GET" ise, sadece sayfayı göster
+    return render(request, 'add_page.html')
+def delete_birthday(request, birthday_id):
+   
+    delete_birthday = get_object_or_404(Birthday, id=birthday_id)
+    
+    if request.method == 'POST':
+        delete_birthday.deleted = True
+        delete_birthday.save()
+        return redirect('birthday')
+    return render(request, 'birthday.html')
+
+def delete_event(request, event_id):
+   
+    delete_event = get_object_or_404(Event, event_id=event_id)
+    
+    if request.method == 'POST':
+        delete_event.deleted = True
+        delete_event.save()
+        return redirect('event')
+    return render(request, 'event.html')
+def delete_movie(request, movie_id):
+   
+    delete_movie = get_object_or_404(Movie, movie_id=movie_id)
+    
+    if request.method == 'POST':
+        delete_movie.deleted = True
+        delete_movie.save()
+        return redirect('movie')
+    return render(request, 'movie.html')
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = EditForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=post.id)  # veya başka bir sayfaya yönlendirme
+    else:
+        form = EditForm(instance=post)
+    return render(request, 'edit_post.html', {'form': form})
     
     
+def undo_delete_post(request, post_id):
+    # Post nesnesini al veya 404 hatası gönder
+    post = get_object_or_404(Post, id=post_id)
+
+    # Post nesnesinin deleted alanını False olarak işaretle
+    post.deleted = False
+    post.save()
+
+    # İlgili sayfaya yönlendir
+    return redirect('deleted_posts')
+def undo_delete_movies(request,movie_id):
+    # Post nesnesini al veya 404 hatası gönder
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    # Post nesnesinin deleted alanını False olarak işaretle
+    movie.deleted = False
+    movie.save()
+
+    # İlgili sayfaya yönlendir
+    return redirect('deleted_movies')
+def undo_delete_events(request, event_id):
+    # Post nesnesini al veya 404 hatası gönder
+    event = get_object_or_404(Post, id=event_id)
+
+    # Post nesnesinin deleted alanını False olarak işaretle
+    event.deleted = False
+    event.save()
+
+    # İlgili sayfaya yönlendir
+    return redirect('deleted_posts')
+def undo_delete_birthdays(request, birthday_id):
+    # Post nesnesini al veya 404 hatası gönder
+    birthday = get_object_or_404(Post, id=birthday_id)
+
+    # Post nesnesinin deleted alanını False olarak işaretle
+    birthday.deleted = False
+    birthday.save()
+
+    # İlgili sayfaya yönlendir
+    return redirect('deleted_birthdays')
