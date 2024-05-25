@@ -28,6 +28,7 @@ def add_page(request):
         form = PostForm()  # Her iki koşul altında formu tanımla
     
     return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
+
 def post_detail(request, post_id):
         post = get_object_or_404(Post, pk=post_id)
         return render(request, 'gorevler.html', {'post': post})
