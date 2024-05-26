@@ -27,11 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
-    'crispy_forms',
     'block',
     'ckeditor',
     'ckeditor_uploader',
-     'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +123,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CKEditor Settings
 CKEDITOR_UPLOAD_PATH = "uploads/",
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' 
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
@@ -145,4 +142,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
