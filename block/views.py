@@ -308,6 +308,7 @@ def undo_delete_post(request, post_id):
 
     # İlgili sayfaya yönlendir
     return redirect('deleted_posts')
+
 def undo_delete_movies(request,movie_id):
     # Post nesnesini al veya 404 hatası gönder
     movie = get_object_or_404(Movie, id=movie_id)
@@ -318,16 +319,19 @@ def undo_delete_movies(request,movie_id):
 
     # İlgili sayfaya yönlendir
     return redirect('deleted_movies')
+
+
 def undo_delete_events(request, event_id):
-    # Post nesnesini al veya 404 hatası gönder
-    event = get_object_or_404(Post, id=event_id)
+    event = get_object_or_404(Event, id=event_id)
 
     # Post nesnesinin deleted alanını False olarak işaretle
     event.deleted = False
     event.save()
 
     # İlgili sayfaya yönlendir
-    return redirect('deleted_posts')
+    return redirect('deleted_events')
+
+
 def undo_delete_birthdays(request, birthday_id):
     # Post nesnesini al veya 404 hatası gönder
     birthday = get_object_or_404(Birthday, id=birthday_id)
@@ -338,6 +342,7 @@ def undo_delete_birthdays(request, birthday_id):
 
     # İlgili sayfaya yönlendir
     return redirect('deleted_birthdays')
+
 def edit_shop(request, shop_id):
     # Düzenlenmek istenen alışveriş öğesini getir
     shop = get_object_or_404(Shopping, id=shop_id)
@@ -363,14 +368,10 @@ def edit_shop(request, shop_id):
 
 def delete_shop(request, shop_id):
     shop = get_object_or_404(Shopping, id=shop_id)
-
+    print(shop)
     if request.method == 'POST':
-        # Sadece deleted alanını False yap
-        shop.deleted = False
+        shop.deleted = True
         shop.save()
-
-        messages.success(request, "Ürün başarıyla geri getirildi.")
-
         return redirect('todo')
 
     return render(request, 'todo.html', {'shop': shop})

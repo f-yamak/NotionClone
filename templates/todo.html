@@ -60,7 +60,10 @@
                     <div class="btn-group" role="group" aria-label="Edit Delete">
                       <button class="btn btn-success btn-sm rounded-pill ml-2" onclick="markAsDone(this)"><i class="fas fa-check"></i></button>
 
-                      <a href="{% url 'delete_shop' shop.id %}" class="btn btn-danger btn-sm rounded-pill ml-2"><i class="fas fa-trash"></i></a>
+                      <form action="{% url 'delete_shop' shop.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm rounded-pill ml-2"><i class="fas fa-trash"></i></button>
+                      </form>
                     </div>
                   </li>
                 {% endfor %}
