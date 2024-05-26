@@ -35,33 +35,66 @@
     {% include 'includes/sidebar.html' %}
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="form-container">
-                    <h2 class="text-center mb-4"><i class="fas fa-lock"></i> Şifre Değiştirme</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="current_password">Mevcut Şifre:</label>
-                            {{ form.old_password }}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">Şifre Güncelleme</h4>
+                        <div class="flex-shrink-0">
+                            
+                        </div>
+                    </div><!-- end card header -->
 
+                    <div class="card-body">
+                        <p class="text-muted">Şifre Güncelleme işlemlerinizi burada yapabilirsiniz. Dikkate etmeniz gerekenler :<br/>
+                            - Parolanız diğer kişisel bilgileriniz ile çok benzer olamaz.<br/>
+- Parolanız en az 8 karakter içermek zorundadır.<br/>
+- Parolanız yaygın olarak kullanılan bir parola olamaz.<br/>
+- Parolanız tamamıyla sayısal olamaz.
+                        </p>
+                        {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for message in messages %}
+                                <li>{{ message }}</li>
+
+                                {% endfor %}
+                            </ul>
                         </div>
+                        {% endif %}
+                        <form class="row g-3" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_old_password" class="form-label">Eski Şifre</label>
+                                {{ form.old_password }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_new_password1" class="form-label">Yeni Şifre</label>
+                                {{ form.new_password1 }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_new_password2" class="form-label">Yeni Şifre Tekrar</label>
+                                {{ form.new_password2 }}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-animation waves-effect waves-light" style="display: block; margin: 0 auto; width: 150px " data-text="Şifremi Güncelle"><span>Şifremi Güncelle</span></button>
+                        </form>
                         
-                        <div class="form-group">
-                            <label for="new_password1">Yeni Şifre:</label>
-                            {{ form.new_password1 }}
+
+
+
+
+                            
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="new_password2">Yeni Şifre Tekrar:</label>
-                            {{ form.new_password2 }}
-                        </div>
-                        
-                        <button type="submit" class="btn btn-secondary btn-block">Şifre Değiştir</button>
-                    </form>
-                    
-                </div>
+                    </div>
+                </div> <!-- end col -->
+            
             </div>
+            <!-- end row -->
+        
         </div>
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
     </div>
 {% endblock %}

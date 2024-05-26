@@ -2,8 +2,6 @@ from django import forms
 from django.contrib.auth.forms  import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import widgets
-from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginUserForm(AuthenticationForm):
@@ -48,9 +46,8 @@ class RegisterUserForm(UserCreationForm):
         return username
     
 
-class ChangePasswordForm(PasswordChangeForm):
-  def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['old_password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Mevcut Şifre'})
-        self.fields['new_password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Yeni Şifre'})
-        self.fields['new_password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Yeni Şifre Tekrar'})
+class PasswordChangeForm(forms.Form):
+    old_password = forms.CharField(label='Eski Şifre', widget=forms.PasswordInput)
+    new_password1 = forms.CharField(label='Yeni Şifre', widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label='Yeni Şifre Tekrar', widget=forms.PasswordInput)
+

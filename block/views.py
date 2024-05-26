@@ -63,7 +63,7 @@ def deleted_events(request):
     return render(request, 'deleted_events.html',{'deleted_events':deleted_events})
 def deleted_movies(request):
     deleted_movies=Movie.objects.filter(deleted=True)
-    return render(request, '.html',{'deleted_movies':deleted_movies})
+    return render(request, 'deleted_movies.html',{'deleted_movies':deleted_movies})
     
 
 
@@ -176,7 +176,7 @@ def movie(request):
         )
         print("2")
         print(movie)
-        existing_movie = Movie.objects.filter(title=title, description=description,deleted=False).exists()
+        existing_movie = Movie.objects.filter(title=title, description=description).exists()
         if existing_movie:
             messages.warning(request, "Bu film zaten eklenmiş.")
         else:
@@ -190,7 +190,13 @@ def movie(request):
         movie.save()
         
        
+<<<<<<< Updated upstream
         movies=Movie.objects.filter(deleted=False)
+=======
+        movies=Movie.objects.all(deleted=False)
+        messages.success(request, "Randevu başarıyla oluşturuldu.",{'movies': movies})
+        print("3")
+>>>>>>> Stashed changes
         
         # Şablonla birlikte upcoming_birthdays'i gönder
         return render(request, 'movie.html',{'movies': movies})
@@ -262,10 +268,17 @@ def delete_event(request, event_id):
         return redirect('event')
     return render(request, 'event.html')
 
+<<<<<<< Updated upstream
 
 def delete_movie(request, movie_id):   
     delete_movie = get_object_or_404(Movie, id=movie_id)
 
+=======
+def delete_movie(request, movie_id):
+   
+    delete_movie = get_object_or_404(Movie, movie_id=movie_id)
+    
+>>>>>>> Stashed changes
     if request.method == 'POST':
         delete_movie.deleted = True
         delete_movie.save()
