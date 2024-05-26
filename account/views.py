@@ -55,18 +55,29 @@ def user_logout(request):
     logout(request)
     return redirect('homepage')
 
+from django.contrib import messages
+
 @csrf_exempt
 def change_password(request):
     if request.method == 'POST':
         form = CustomPasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
+            print("1")
             user = form.save()
             update_session_auth_hash(request, user)  # Oturum açıkken oturumun geçerliliğini koru
             messages.success(request, 'Your password was successfully updated!')
             return redirect('members_settings')  # Şifre değiştikten sonra profil sayfasına yönlendir
+        else:
+            # Form geçerli değilse, hata mesajlarını alıp kullanıcıya göster
+            print("2")
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
     else:
+        print("1")
         form = CustomPasswordChangeForm(user=request.user)
     return render(request, 'members_settings.html', {'form': form})
+
 
 
 

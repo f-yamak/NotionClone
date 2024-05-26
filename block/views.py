@@ -39,9 +39,17 @@ def add_page(request):
     
     return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
 
+from django.shortcuts import get_object_or_404
+
 def post_detail(request, post_id):
-        post = get_object_or_404(Post, pk=post_id)
-        return render(request, 'gorevler.html', {'post': post})
+    
+    user_id = request.user.id 
+    
+   
+    post = get_object_or_404(Post, pk=post_id, user_id=user_id)
+    
+    return render(request, 'gorevler.html', {'post': post})
+
 
 
 
@@ -87,18 +95,21 @@ def members_settings(request):
 
 
 def calendar(request):
-    events = Event.objects.filter(deleted=False)
-    birthdays = Birthday.objects.filter(deleted=False)
+   
+    user_id = request.user.id  
 
-    # Etkinlikleri JSON formatında hazırlama
+    events = Event.objects.filter(user_id=user_id, deleted=False)
+    birthdays = Birthday.objects.filter(user_id=user_id, deleted=False)
+
+    
     events_data = []
     for event in events:
         events_data.append({
             'title': event.name,
-            'start': event.date.isoformat(),  # Tarihi ISO formatına çevir
+            'start': event.date.isoformat(),  
         })
 
-    # Doğum günlerini JSON formatında hazırlama
+    
     birthdays_data = []
     for birthday in birthdays:
         birthdays_data.append({
@@ -111,6 +122,7 @@ def calendar(request):
     }
     
     return render(request, 'calendar.html', data)
+
 
 
 def templates(request):

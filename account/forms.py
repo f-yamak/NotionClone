@@ -3,6 +3,7 @@ from django.contrib.auth.forms  import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import widgets
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import get_user_model
 
 
 class LoginUserForm(AuthenticationForm):
@@ -64,4 +65,4 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     # Ekstra alanlar veya özelleştirmeler ekleyebilirsiniz
 
     class Meta:
-        model = User  # Kullanıcı modeli
+        model = get_user_model()

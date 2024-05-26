@@ -55,6 +55,7 @@
                        
                         <form action="{% url 'change_password' %}" method="post">
                             {% csrf_token %}
+                            
                             {{ form.old_password.label_tag }}
                             {{ form.old_password }}
                             <br>
