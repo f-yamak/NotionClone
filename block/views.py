@@ -1,25 +1,17 @@
-import json
-from datetime import datetime
-from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import EditForm, PostForm
 from block.models import *
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
-from django.core.serializers.json import DjangoJSONEncoder
 from datetime import datetime, timedelta
-from django.shortcuts import render
-from .models import Event, Birthday
 from django.core.serializers.json import DjangoJSONEncoder
-from django.shortcuts import render
 from .models import Post, Event, Movie, Birthday
 import json
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
-from django.shortcuts import render
-from .models import Event, Birthday
-from datetime import datetime
+from .models import Post, Birthday, Event, Movie
+from .models import Post
+
 # Create your views here.
 def homepage(request):
     if request.user.is_authenticated:
@@ -53,8 +45,6 @@ def post_detail(request, post_id):
 
 
 
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Birthday, Event, Movie
 
 def deleted_posts(request):
     if request.user.is_authenticated:
@@ -81,6 +71,7 @@ def deleted_events(request):
 def deleted_movies(request):
     if request.user.is_authenticated:
         deleted_movies = Movie.objects.filter(deleted=True, user=request.user)
+        print(deleted_movies)
         return render(request, 'deleted_movies.html', {'deleted_movies': deleted_movies})
     else:
         return HttpResponse("You need to login to view this page.")
@@ -96,24 +87,30 @@ def members_settings(request):
 
 
 def calendar(request):
-    today = datetime.now()
+    events = Event.objects.filter(deleted=False)
+    birthdays = Birthday.objects.filter(deleted=False)
 
+    # Etkinlikleri JSON formatında hazırlama
+    events_data = []
+    for event in events:
+        events_data.append({
+            'title': event.name,
+            'start': event.date.isoformat(),  # Tarihi ISO formatına çevir
+        })
 
-    # Bu hafta içindeki etkinlikleri al
-    events = Event.objects.all()
-    closest_event = Event.objects.filter(date__gte=today).order_by('date').first()
+    # Doğum günlerini JSON formatında hazırlama
+    birthdays_data = []
+    for birthday in birthdays:
+        birthdays_data.append({
+            'title': f"Birthday: {birthday.person_name}",
+            'start': birthday.birth_date.isoformat(),  # Tarihi ISO formatına çevir
+        })
 
-    # Bu hafta içindeki doğum günlerini al
-    birthdays = Birthday.objects.all()
-
-    # JSON verisini bir sözlük içine yerleştir
     data = {
-        'closest_event': closest_event,
-        'birthdays': birthdays,
+        'events': json.dumps(events_data + birthdays_data),  # Tüm etkinlikleri birleştir
     }
-    print(data)
     
-    return render(request, 'calendar.html', {'data': data})
+    return render(request, 'calendar.html', data)
 
 
 def templates(request):
@@ -220,8 +217,6 @@ def event(request):
     return render(request, 'event.html', {'upcoming_events': upcoming_events})
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
 
 def delete_post(request, post_id):
     # Post nesnesini al veya 404 hatası gönder

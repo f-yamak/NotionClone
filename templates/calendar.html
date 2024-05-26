@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'block/css/style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.css">
-{% endblock  %}
+{% endblock %}
 
 {% block title %}
     Calendar
@@ -65,54 +65,29 @@
     cursor: pointer;
 }
 
-    
 </style>
 <div class="calendar-container" style="justify-content:right">
- 
-  
-        
-          
-            
-                
-                    
-                        <td>{{ closest_event.name }}</td>
-                        <td>{{ closest_event.date }}</td>
-                
-           
-     
+
+    <td>{{ closest_event.name }}</td>
+    <td>{{ closest_event.date }}</td>     
 
     <div id="calendar"></div>
 </div>
 
-  
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.js"></script>
-    
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: [
-                    // Buraya etkinliklerinizi ekleyebilirsiniz
-                    {
-                        title: 'iş görüşmesi',
-                        start: '2024-05-01',
-                        end: '2024-05-03'
-                    },
-                    {
-                        title: 'Python project',
-                        start: '2024-05-28',
-                        end: '2024-05-29'
-                    }
-                    // Etkinliklerinizi eklemeye devam edebilirsiniz
-                   
-                ]
-            });
-            calendar.render();
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.2/main.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: JSON.parse('{{ events|escapejs }}')  // JSON verisini takvime ekle
         });
-    </script>
+        calendar.render();
+    });
+</script>
+
 {% endblock %}
