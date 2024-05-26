@@ -152,10 +152,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script>
+
+{% comment %} <script>
   $(document).ready(function () {
     $('.sidebar-link').click(function () {
       $(this).next('.collapse').slideToggle()
     })
   })
+</script> {% endcomment %}
+<script>
+  $(document).ready(function () {
+    // Sayfa yüklendiğinde alt menüyü açık konumda tutmak için
+    $('.collapse').addClass('show');
+  
+    // Yan çubuk bağlantısına tıklama olayı eklemeye gerek yok
+  
+    // Ancak, eğer alt menü içinde alt öğeler de varsa ve kullanıcıların bunları kapatıp açmasını istiyorsanız
+    // aşağıdaki kodu kullanabilirsiniz:
+  
+    // $('.sidebar-link').click(function () {
+    //   $('.collapse').toggleClass('show');
+    // });
+  });
 </script>

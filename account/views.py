@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from .forms import CustomPasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 
@@ -54,16 +55,22 @@ def user_logout(request):
     logout(request)
     return redirect('homepage')
 
-# views.py
-
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-
-@login_required
-
+@csrf_exempt
 def change_password(request):
-    form = PasswordChangeForm()
-    return render(request, 'change_password.html', {'form': form})
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Oturum açıkken oturumun geçerliliğini koru
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('members_settings')  # Şifre değiştikten sonra profil sayfasına yönlendir
+    else:
+        form = CustomPasswordChangeForm(user=request.user)
+    return render(request, 'members_settings.html', {'form': form})
+
+
+
+
+
+
+

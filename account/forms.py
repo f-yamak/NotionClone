@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms  import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import widgets
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginUserForm(AuthenticationForm):
@@ -46,8 +47,21 @@ class RegisterUserForm(UserCreationForm):
         return username
     
 
-class PasswordChangeForm(forms.Form):
-    old_password = forms.CharField(label='Eski Şifre', widget=forms.PasswordInput)
-    new_password1 = forms.CharField(label='Yeni Şifre', widget=forms.PasswordInput)
-    new_password2 = forms.CharField(label='Yeni Şifre Tekrar', widget=forms.PasswordInput)
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label="Old Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    new_password2 = forms.CharField(
+        label="Confirm New Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
 
+    # Ekstra alanlar veya özelleştirmeler ekleyebilirsiniz
+
+    class Meta:
+        model = User  # Kullanıcı modeli

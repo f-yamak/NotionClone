@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'block',
     'ckeditor',
     'ckeditor_uploader',
+     'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
