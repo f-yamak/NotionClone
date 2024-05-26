@@ -34,8 +34,12 @@
             }
         }
     </style>
+    <div class="row">
+        <div class="col-2">
+            {% include 'includes/sidebar.html' %}
+        </div>
+        <div class="col-10">
 
-    {% include 'includes/sidebar.html' %}
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -50,11 +54,11 @@
 
                 <div class="list-group shadow">
                     <a href="{% url 'deleted_posts' %}" class="list-group-item list-group-item-action"> 
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i>  Delated Post
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i>  Deleted Notes
                     </a>
                  
                     <a href="{% url 'deleted_birthdays' %}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Delated Birthdays
+                        <i class="fas fa-trash-alt mr-2 text-danger"></i> Deleted Birthdays
                     </a>
                     <a href="{% url 'deleted_movies' %}" class="list-group-item list-group-item-action">
                         <i class="fas fa-trash-alt mr-2 text-danger"></i>  Deleted Movies
@@ -68,4 +72,6 @@
             </div>
         </div>
     </div>
+</div>
+</div>
 {% endblock %}

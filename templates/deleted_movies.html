@@ -42,7 +42,8 @@
                             <span class="ms-4"> - </span>
                             <span>{{ item.description }}</span>
                         </div>
-                        <form method="post" action="">
+                        <form method="post" action="{% url 'undo_delete_movie' item.id %}">
+                            {% csrf_token %}
                         <button class="btn btn-success"><i class="fas fa-undo"></i> </button>
                         </form>
                     </li>

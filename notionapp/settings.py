@@ -129,7 +129,8 @@ CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
-        'width': '800px',
+        'width': '110%',
+        'height':'400px',
         'extraPlugins': ','.join([
             'codesnippet',
         ]),
