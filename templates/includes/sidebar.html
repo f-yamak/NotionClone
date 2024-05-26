@@ -65,15 +65,16 @@
       </a>
       <div class="collapse" id="notes-dropdown">
         <ul style="none" class="sub-menu">
-          {% for post in posts %}
-            {% if not post.deleted %}
-              <li style="none">
-                <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
-              </li>
-            {% endif %}
-          {% endfor %}
+            {% for post in posts %}
+                {% if not post.deleted and post.user_id == request.user.id %}
+                    <li style="none">
+                        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
         </ul>
-      </div>
+    </div>
+    
     </li>
     <!-- Search Kısmı -->
 
