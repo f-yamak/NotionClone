@@ -15,7 +15,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 from .models import Post, Event, Movie, Birthday
 import json
-
+from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.shortcuts import render
 from .models import Event, Birthday
@@ -30,18 +30,20 @@ def homepage(request):
 def index(request):
     return render(request, "block/index.html")
 
-
+@login_required
 def add_page(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)  # PostForm'u request.POST verisiyle oluştur
-        if form.is_valid():  # Form doğru verilerle doldurulmuşsa
-            form.save()  # Formu veritabanına kaydet
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)  # Veritabanına henüz kaydetme
+            post.user = request.user  # Mevcut kullanıcıyı atama
+            post.save()  # Veritabanına kaydetme
             messages.success(request, "Post başarıyla oluşturuldu.")
-            return redirect('add_page')  # Yeni bir post eklemek için sayfayı yeniden yükle
+            return redirect('add_page')
         else:
             messages.error(request, "Formda hatalar var. Lütfen tekrar deneyin.")
     else:
-        form = PostForm()  # Her iki koşul altında formu tanımla
+        form = PostForm()
     
     return render(request, 'add_page.html', {'form': form, 'posts': Post.objects.all()})
 
