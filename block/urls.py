@@ -30,11 +30,12 @@ urlpatterns = [
     path('shopping/', views.shopping, name='shopping'),
     path('post/<int:post_id>/', views.post_detail, name='post_detail'),
     path('undo_delete_post/<int:post_id>/', views.undo_delete_post, name='undo_delete_post'),
-   path('undo_delete_birthdays/<int:birthday_id>/', views.undo_delete_birthdays, name='undo_delete_birthdays'),
-   
-
+    path('undo_delete_birthdays/<int:birthday_id>/', views.undo_delete_birthdays, name='undo_delete_birthdays'),
+    path('edit_post/<int:post_id>/', views.edit_post, name='edit_post'),
     path('undo_delete_events/<int:event_id>/', views.undo_delete_events, name='undo_delete_event'),
     path('undo_delete_movies/<int:movie_id>/', views.undo_delete_movies, name='undo_delete_movie'),
+    path('edit/<int:shop_id>/', edit_shop, name='edit_shop'),
+    path('delete/<int:shop_id>/', delete_shop, name='delete_shop'),
     
 
 

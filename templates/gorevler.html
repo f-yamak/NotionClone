@@ -1,5 +1,6 @@
 
 
+
 <!-- Ana HTML içeriği -->
 {% extends 'layout.html' %}
 {% load static %}
@@ -26,10 +27,12 @@
   <div class="container mt-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <form id="myForm" action="{% url 'edit_post' post_id=post.id %}" method="post">
-          {% csrf_token %}
-          <button class="edit-post-btn lg" style="background-color: transparent; border: none; color: black; padding: 0; cursor: pointer;"><i class="fas fa-edit" style="font-size: 12px; margin: 0; color: #888;"></i></button>
-        </form>
+       
+        <div class="col-md-8">
+          <form id="myForm" action="{% url 'edit_post' post_id=post.id %}" method="post">
+            {% csrf_token %}
+            <button class="edit-post-btn lg" style="background-color: transparent; border: none; color: black; padding: 0; cursor: pointer;"><i class="fas fa-edit" style="font-size: 12px; margin: 0; color: #888;"></i></button>
+          </form>       
 
         <form id="deleteForm" action="{% url 'delete_post' post_id=post.id %}" method="post">
           {% csrf_token %}
@@ -47,32 +50,39 @@
     </div>
   </div>
 
-<!-- Modal -->
+  
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header " style="background-color: lightgreen; "> 
         <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
-      </div>
+    </div>
       <div class="modal-body">
-        <form  method="POST" >
+        <form method="POST" action="{% url 'edit_post' post_id=post.id %}">
           {% csrf_token %}
-          <div class="mt-5 mb-5 ">
-              {{ form.title }}  
+          <div class="form-group">
+            <label for="id_title"  style="margin-right: 10px;">Title:</label>
+            <input type="text" name="title" required >
           </div>
-          <div class="mt-5 mb-5">
-              {{ form.body}}  
-              {{ form.media }}  
+      
+        <div class="form-group">
+          <label for="id_body" style="margin-right: 10px;">Content</label>
+          <textarea style="background-color: #fff" name="body"></textarea>
+
+          
+          {{ form.media }}
+        </div>
+          <div class="text-center" style="margin-right: 100px">
+            <button type="submit" class="btn btn-sm btn-secondary">Save</button>
           </div>
-          <div class="text-center " style=" margin-right: 100px">
-              <button type="submit"  class="btn btn-sm btn-secondary">Save</button>
-          </div>
-      </form>
+        </form>
+        
       </div>
    
     </div>
   </div>
 </div>
+
   <script>
     // Form gönderildiğinde modalı aç
     document.getElementById("myForm").addEventListener("submit", function(event) {

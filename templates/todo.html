@@ -41,16 +41,30 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">To-Do List</h2>
-                        <form action="" method="post">
+                        <form action="{% url 'todo' %}" method="post">
                             {% csrf_token %}
                             <div class="form-group">
-                                <input type="text" class="form-control" id="todo-input" placeholder="To-do">
+                                <input type="text" name="product_name" class="form-control" id="todo-input" required placeholder="To-do">
                             </div>
                             <button type="submit" class="btn btn-success btn-block">Add</button>
                         </form>
-                        <ul id="todo-list" class="list-group mt-3">
-                            <!-- Görevler buraya eklenecek -->
-                        </ul>
+                        
+                           
+                                <!-- Django view'ından gelen alışveriş öğelerini döngü ile ekleyin -->
+                                {% for shop in shops %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ shop.product_name }}
+                                        <div class="btn-group" role="group" aria-label="Edit Delete">
+                                            <button class="btn btn-success btn-sm rounded-pill ml-2" onclick="markAsDone(this)"><i class="fas fa-check"></i></button>
+                                            
+                                            <a href="{% url 'delete_shop' shop.id %}" class="btn btn-danger btn-sm rounded-pill ml-2"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            
+                            
+                            
+                       
                     </div>
                 </div>
             </div>
@@ -119,5 +133,10 @@
         });
     });
 </script>
-
+<script>
+    function markAsDone(button) {
+        button.parentNode.parentNode.style.textDecoration = 'line-through'; // Üstü çizili yap
+        button.parentNode.parentNode.style.order = '1'; // En alta git
+    }
+</script>
 {% endblock %}

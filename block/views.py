@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import EditForm, PostForm
 from block.models import *
 from django.core.serializers import serialize
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
 from datetime import datetime, timedelta
 from django.shortcuts import render
@@ -51,20 +51,37 @@ def post_detail(request, post_id):
 
 
 
+from django.shortcuts import render, get_object_or_404
+from .models import Post, Birthday, Event, Movie
+
 def deleted_posts(request):
-    deleted_posts=Post.objects.filter(deleted=True)
-    return render(request, 'deleted_posts.html',{'deleted_posts':deleted_posts})
+    if request.user.is_authenticated:
+        deleted_posts = Post.objects.filter(deleted=True, user=request.user)
+        return render(request, 'deleted_posts.html', {'deleted_posts': deleted_posts})
+    else:
+        # Kullanıcı giriş yapmamışsa bir yönlendirme veya uygun bir işlem yapılabilir.
+        return HttpResponse("You need to login to view this page.")
+
 def deleted_birthdays(request):
-    deleted_birthdays=Birthday.objects.filter(deleted=True)
-    return render(request, 'deleted_birthdays.html',{'deleted_birthdays':deleted_birthdays})
+    if request.user.is_authenticated:
+        deleted_birthdays = Birthday.objects.filter(deleted=True, user=request.user)
+        return render(request, 'deleted_birthdays.html', {'deleted_birthdays': deleted_birthdays})
+    else:
+        return HttpResponse("You need to login to view this page.")
+
 def deleted_events(request):
-    deleted_events=Event.objects.filter(deleted=True)
-    print(deleted_events)
-    return render(request, 'deleted_events.html',{'deleted_events':deleted_events})
+    if request.user.is_authenticated:
+        deleted_events = Event.objects.filter(deleted=True, user=request.user)
+        return render(request, 'deleted_events.html', {'deleted_events': deleted_events})
+    else:
+        return HttpResponse("You need to login to view this page.")
+
 def deleted_movies(request):
-    deleted_movies=Movie.objects.filter(deleted=True)
-    return render(request, 'deleted_movies.html',{'deleted_movies':deleted_movies})
-    
+    if request.user.is_authenticated:
+        deleted_movies = Movie.objects.filter(deleted=True, user=request.user)
+        return render(request, 'deleted_movies.html', {'deleted_movies': deleted_movies})
+    else:
+        return HttpResponse("You need to login to view this page.")
 
 
 def inbox(request):
@@ -108,101 +125,70 @@ def trash(request):
 
 def birthday(request):
     if request.method == 'POST':
-        person_name = request.POST.get('person_name')
-        birth_date = request.POST.get('birth_date')
+        if request.user.is_authenticated:
+            person_name = request.POST.get('person_name')
+            birth_date = request.POST.get('birth_date')
 
-        birthday = Birthday.objects.create(
-            person_name=person_name,
-            birth_date=birth_date,
-        )
+            birthday = Birthday.objects.create(
+                person_name=person_name,
+                birth_date=birth_date,
+                user=request.user
+            )
 
-        birthday.save()
-        
-        upcoming_birthdays = Birthday.objects.all().order_by('birth_date')[:6]
-        
-        # Şablonla birlikte upcoming_birthdays'i gönder
-        return render(request, 'birthday.html', {'upcoming_birthdays': upcoming_birthdays})
-        
+            birthday.save()
+            
+            upcoming_birthdays = Birthday.objects.filter(deleted=False, user=request.user).order_by('birth_date')[:6]
+            
+            return render(request, 'birthday.html', {'upcoming_birthdays': upcoming_birthdays})
+        else:
+            return HttpResponse("You need to login to view this page.")
     
-    upcoming_birthdays = Birthday.objects.all().order_by('birth_date')[:6]
+    upcoming_birthdays = Birthday.objects.filter(deleted=False, user=request.user).order_by('birth_date')[:6]
     return render(request, 'birthday.html',{'upcoming_birthdays': upcoming_birthdays})
+
 
 
 def todo(request):
     if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        movie = Movie.objects.create(
-            title=title,
-            description=description,
+        if request.user.is_authenticated:
+            product_name = request.POST.get('product_name')
             
-        )
-        print("2")
-        print(movie)
-        existing_movie = Movie.objects.filter(title=title, description=description).exists()
-        if existing_movie:
-            messages.warning(request, "Bu film zaten eklenmiş.")
-        else:
-            movie = Movie.objects.create(
-                title=title,
-                description=description,
-            )
-            movie.save()
-            messages.success(request, "Film başarıyla eklendi.")
+            shop = Shopping.objects.create(product_name=product_name, user=request.user)
+            shop.save()
 
-        movie.save()
-        
-       
-        movies=Movie.objects.all()
-        messages.success(request, "Randevu başarıyla oluşturuldu.",{'movies': movies})
-        print("3")
-        
-        # Şablonla birlikte upcoming_birthdays'i gönder
-        return render(request, 'movie.html')
-        
-    else:
-        movies=Movie.objects.all()
-        return render(request, 'movie.html',{'movies': movies})
+            messages.success(request, "Ürün başarıyla eklendi.")
+
+            return redirect('todo')
+        else:
+            return HttpResponse("You need to login to view this page.")
+
+    shops = Shopping.objects.filter(deleted=False, user=request.user)
+    return render(request, 'todo.html', {'shops': shops})
 
 def movie(request):
    
     if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        movie = Movie.objects.create(
-            title=title,
-            description=description,
-            
-        )
-        print("2")
-        print(movie)
-        existing_movie = Movie.objects.filter(title=title, description=description).exists()
-        if existing_movie:
-            messages.warning(request, "Bu film zaten eklenmiş.")
-        else:
+        if request.user.is_authenticated:
+            title = request.POST.get('title')
+            description = request.POST.get('description')
             movie = Movie.objects.create(
                 title=title,
                 description=description,
+                user=request.user
             )
-            movie.save()
-            messages.success(request, "Film başarıyla eklendi.")
+            
+            existing_movie = Movie.objects.filter(title=title, description=description, user=request.user).exists()
+            if existing_movie:
+                messages.warning(request, "Bu film zaten eklenmiş.")
+            else:
+                movie.save()
+                messages.success(request, "Film başarıyla eklendi.")
 
-        movie.save()
-        
-       
-<<<<<<< Updated upstream
-        movies=Movie.objects.filter(deleted=False)
-=======
-        movies=Movie.objects.all(deleted=False)
-        messages.success(request, "Randevu başarıyla oluşturuldu.",{'movies': movies})
-        print("3")
->>>>>>> Stashed changes
-        
-        # Şablonla birlikte upcoming_birthdays'i gönder
-        return render(request, 'movie.html',{'movies': movies})
-        
+            movies=Movie.objects.filter(deleted=False, user=request.user)
+            
+            return render(request, 'movie.html',{'movies': movies})
     else:
-        movies=Movie.objects.filter(deleted=False)
+        movies=Movie.objects.filter(deleted=False, user=request.user)
         return render(request, 'movie.html',{'movies': movies})
 
 def shopping(request):
@@ -210,24 +196,25 @@ def shopping(request):
     
 def event(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        date = request.POST.get('date')
-        time =request.POST.get('time')
+        if request.user.is_authenticated:
+            name = request.POST.get('name')
+            date = request.POST.get('date')
+            time =request.POST.get('time')
 
-        event = Event.objects.create(
-            name=name,
-            date=date,
-            time=time
-        )
+            event = Event.objects.create(
+                name=name,
+                date=date,
+                time=time,
+                user=request.user
+            )
 
-        event.save()
-        
-        upcoming_events = Event.objects.filter(deleted=False).order_by('date')[:3]
+            event.save()
+            
+            upcoming_events = Event.objects.filter(deleted=False, user=request.user).order_by('date')[:3]
 
-        
-        return render(request, 'event.html', {'upcoming_events': upcoming_events})
-        
-    upcoming_events = Event.objects.filter(deleted=False).order_by('date')[:3]
+            
+            return render(request, 'event.html', {'upcoming_events': upcoming_events})
+    upcoming_events = Event.objects.filter(deleted=False, user=request.user).order_by('date')[:3]
     return render(request, 'event.html', {'upcoming_events': upcoming_events})
 
 
@@ -268,17 +255,10 @@ def delete_event(request, event_id):
         return redirect('event')
     return render(request, 'event.html')
 
-<<<<<<< Updated upstream
 
 def delete_movie(request, movie_id):   
     delete_movie = get_object_or_404(Movie, id=movie_id)
 
-=======
-def delete_movie(request, movie_id):
-   
-    delete_movie = get_object_or_404(Movie, movie_id=movie_id)
-    
->>>>>>> Stashed changes
     if request.method == 'POST':
         delete_movie.deleted = True
         delete_movie.save()
@@ -287,16 +267,26 @@ def delete_movie(request, movie_id):
     return render(request, 'movie.html')
 
 
+
 def edit_post(request, post_id):
+    # Post nesnesini getir veya 404 hatası göster
     post = get_object_or_404(Post, id=post_id)
+    
     if request.method == 'POST':
-        form = EditForm(request.POST, instance=post)
+        # Formdan gelen verileri al
+        form = EditForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('post_detail', post_id=post.id)  # veya başka bir sayfaya yönlendirme
+            # Form doğru ise, gönderiyi güncelle
+            post.title = form.cleaned_data['title']
+            post.body = form.cleaned_data['body']
+            post.save()
+            # Başka bir sayfaya yönlendir veya mesaj göster
+            return redirect('post_detail', post_id=post.id)
     else:
-        form = EditForm(instance=post)
-    return render(request, 'edit_post.html', {'form': form})
+        #
+        form =EditForm(initial={'title': post.title, 'body': post.body}) 
+        return render(request, 'edit_post.html', {'form': form})
+
     
     
 def undo_delete_post(request, post_id):
@@ -339,3 +329,39 @@ def undo_delete_birthdays(request, birthday_id):
 
     # İlgili sayfaya yönlendir
     return redirect('deleted_birthdays')
+def edit_shop(request, shop_id):
+    # Düzenlenmek istenen alışveriş öğesini getir
+    shop = get_object_or_404(Shopping, id=shop_id)
+    
+    if request.method == 'POST':
+        # POST isteği işleniyor
+        # Formdan gelen verileri al
+        product_name = request.POST.get('product_name')
+        
+        # Alışveriş öğesini güncelle
+        shop.product_name = product_name
+        shop.save()
+
+        # Başarılı bir mesaj gönder
+        messages.success(request, "Ürün başarıyla güncellendi.")
+
+        # Alışveriş listesine yönlendir
+        return redirect('todo')
+
+    # GET isteği durumunda, düzenleme formunu göster
+    return render(request, 'edit_shop.html', {'shop': shop})
+
+
+def delete_shop(request, shop_id):
+    shop = get_object_or_404(Shopping, id=shop_id)
+
+    if request.method == 'POST':
+        # Sadece deleted alanını False yap
+        shop.deleted = False
+        shop.save()
+
+        messages.success(request, "Ürün başarıyla geri getirildi.")
+
+        return redirect('todo')
+
+    return render(request, 'todo.html', {'shop': shop})
