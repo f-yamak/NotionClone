@@ -20,6 +20,8 @@ def homepage(request):
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect('homepage')
     return render(request, "block/index.html")
 
 @login_required
